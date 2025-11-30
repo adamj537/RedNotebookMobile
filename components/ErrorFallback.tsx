@@ -59,11 +59,11 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
 
       <View style={styles.content}>
         <ThemedText type="h1" style={styles.title}>
-          Something went wrong
+          Oops! RedNotebook hit a snag
         </ThemedText>
 
         <ThemedText type="body" style={styles.message}>
-          Please reload the app to continue.
+          Your journal entries are safe. Please restart the app to continue writing.
         </ThemedText>
 
         <Pressable
@@ -81,7 +81,7 @@ export function ErrorFallback({ error, resetError }: ErrorFallbackProps) {
             type="body"
             style={[styles.buttonText, { color: theme.buttonText }]}
           >
-            Try Again
+            Restart RedNotebook
           </ThemedText>
         </Pressable>
       </View>
