@@ -2,6 +2,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import CalendarScreen from "@/screens/CalendarScreen";
 import EntryEditorScreen from "@/screens/EntryEditorScreen";
+import SearchScreen from "@/screens/SearchScreen";
 import { HeaderTitle } from "@/components/HeaderTitle";
 import { useTheme } from "@/hooks/useTheme";
 import { getCommonScreenOptions } from "@/navigation/screenOptions";
@@ -9,6 +10,7 @@ import { getCommonScreenOptions } from "@/navigation/screenOptions";
 export type CalendarStackParamList = {
   Calendar: undefined;
   EntryEditor: { date?: string };
+  SearchResults: undefined;
 };
 
 const Stack = createNativeStackNavigator<CalendarStackParamList>();
@@ -35,6 +37,14 @@ export default function CalendarStackNavigator() {
         options={{
           presentation: "modal",
           headerTitle: "Edit Entry",
+          ...getCommonScreenOptions({ theme, isDark, transparent: false }),
+        }}
+      />
+      <Stack.Screen
+        name="SearchResults"
+        component={SearchScreen}
+        options={{
+          headerTitle: "Search",
           ...getCommonScreenOptions({ theme, isDark, transparent: false }),
         }}
       />

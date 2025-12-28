@@ -56,6 +56,10 @@ export default function CalendarScreen({ navigation }: CalendarScreenProps) {
     }
   }, [syncAll, syncState, refreshEntryDates]);
 
+  const handleSearch = useCallback(() => {
+    navigation.navigate("SearchResults");
+  }, [navigation]);
+
   return (
     <View style={[styles.container, { backgroundColor: theme.backgroundRoot }]}>
       <ScreenScrollView

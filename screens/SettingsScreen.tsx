@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { View, StyleSheet, Alert, ActivityIndicator } from "react-native";
+import { View, StyleSheet, Alert, ActivityIndicator, Platform } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -12,6 +12,7 @@ import { useSync } from "@/context/SyncContext";
 import { useJournal } from "@/context/JournalContext";
 import { useTheme } from "@/hooks/useTheme";
 import { Spacing, BorderRadius } from "@/constants/theme";
+import { exportJournal, shareExport } from "@/utils/exportUtils";
 
 const AUTO_SYNC_KEY = "autoSyncEnabled";
 
@@ -79,6 +80,16 @@ export default function SettingsScreen() {
         "Sync Failed",
         "There was an error syncing your journal. Please try again."
       );
+    }
+  };
+
+  const handleExport = async (format: "json" | "csv" | "yaml") => {
+    try {
+      const content = await exportJournal({ format });
+      await shareExport(content, format);
+      Alert.alert("Export Successful", "Your journal has been exported.");
+    } catch (error) {
+      Alert.alert("Export Failed", "There was an error exporting your journal.");
     }
   };
 
@@ -159,6 +170,29 @@ export default function SettingsScreen() {
         />
       </SettingsSection>
 
+      <SettingsSection title="Export & Backup">
+        <View style={styles.exportButtons}>
+          <Button
+            onPress={() => handleExport("json")}
+            style={styles.exportButton}
+          >
+            Export as JSON
+          </Button>
+          <Button
+            onPress={() => handleExport("csv")}
+            style={styles.exportButton}
+          >
+            Export as CSV
+          </Button>
+          <Button
+            onPress={() => handleExport("yaml")}
+            style={styles.exportButton}
+          >
+            Export as YAML
+          </Button>
+        </View>
+      </SettingsSection>
+
       <SettingsSection title="About">
         <SettingsRow label="Version" value="1.0.0" leftIcon="info" />
         <SettingsRow
@@ -207,6 +241,14 @@ const styles = StyleSheet.create({
   syncingText: {
     color: "#FFFFFF",
     fontWeight: "600",
+  },
+  exportButtons: {
+    gap: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.lg,
+  },
+  exportButton: {
+    marginBottom: 0,
   },
   errorContainer: {
     flexDirection: "row",

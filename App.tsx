@@ -10,6 +10,7 @@ import MainTabNavigator from "@/navigation/MainTabNavigator";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { JournalProvider } from "@/context/JournalContext";
 import { SyncProvider } from "@/context/SyncContext";
+import { SearchProvider } from "@/context/SearchContext";
 
 export default function App() {
   return (
@@ -19,9 +20,11 @@ export default function App() {
           <KeyboardProvider>
             <JournalProvider>
               <SyncProvider>
-                <NavigationContainer>
-                  <MainTabNavigator />
-                </NavigationContainer>
+                <SearchProvider>
+                  <NavigationContainer>
+                    <MainTabNavigator />
+                  </NavigationContainer>
+                </SearchProvider>
               </SyncProvider>
             </JournalProvider>
             <StatusBar style="auto" />
